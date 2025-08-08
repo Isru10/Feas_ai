@@ -3,6 +3,8 @@
 // This is a new, simplified, and fully working Contact Page component.
 export default function ContactPage() {
   return (
+        <section id="contact" className="w-full">
+
     <div className="py-20 lg:py-24">
       {/* Page Header */}
       <div className="text-center px-4">
@@ -90,5 +92,6 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
+    </section>
   );
 }

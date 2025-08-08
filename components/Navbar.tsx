@@ -2,14 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Link from 'next/link';
-
-// 1. IMPORT THE NECESSARY CLERK COMPONENTS
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, isLoaded } = useUser();
 
+  // Your existing useEffect to save the user remains completely UNTOUCHED.
   useEffect(() => {
     const registerUser = async () => {
       if (user && isLoaded) {
@@ -27,11 +26,26 @@ export default function Navbar() {
     registerUser();
   }, [user, isLoaded]);
 
+  // --- THIS IS THE NEW SCROLLING FUNCTION ---
+  // It handles the smooth scroll logic when a section link is clicked.
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, id: string) => {
+    e.preventDefault(); // Prevents the default "jump" behavior of the link.
+    const element = document.getElementById(id); // Finds the section on the page by its ID.
+    if (element) {
+      // Scrolls the view to that element smoothly.
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+    setIsMenuOpen(false); // Closes the mobile menu after a link is clicked.
+  };
+
   return (
-    // Your header structure remains the same
+    // Your main header structure is untouched.
     <header className="relative w-full p-6 z-20"> 
       <div className="mx-auto flex justify-between items-center">
-        {/* Logo remains the same */}
+        {/* Logo remains untouched */}
         <div className="text-3xl font-bold">
           <Link href="/">
             <span className="text-white">Feas</span>
@@ -39,22 +53,23 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Desktop Navigation remains the same */}
+        {/* --- DESKTOP NAVIGATION UPDATED FOR SCROLLING --- */}
         <nav className="hidden md:flex items-center space-x-6 text-sm">
           <Link href="/" className="bg-[#166534] px-5 py-2 rounded-full">
             Home
           </Link>
-          <Link href="/services" className="text-gray-300 hover:text-white transition-colors">
+          {/* The href is now an anchor link, and onClick triggers the scroll */}
+          <Link href="#services" onClick={(e) => handleScroll(e, 'services')} className="text-gray-300 hover:text-white transition-colors">
             Services
           </Link>
-          <Link href="/contact" className="text-gray-300 hover:text-white transition-colors">
+          {/* The href is now an anchor link, and onClick triggers the scroll */}
+          <Link href="#contact" onClick={(e) => handleScroll(e, 'contact')} className="text-gray-300 hover:text-white transition-colors">
             Contact
           </Link>
         </nav>
 
-        {/* --- 2. THIS IS THE UPDATED DESKTOP AUTH SECTION --- */}
+        {/* Your desktop auth section remains completely untouched */}
         <div className="hidden md:flex items-center space-x-4 text-sm">
-          {/* This part will ONLY show if the user is signed OUT */}
           <SignedOut>
             <Link href="/sign-in" className="text-gray-300 hover:text-white transition-colors">
               Login
@@ -63,15 +78,12 @@ export default function Navbar() {
               Register
             </Link>
           </SignedOut>
-
-          {/* This part will ONLY show if the user is signed IN */}
           <SignedIn>
-            {/* The UserButton component handles the profile picture, dropdown menu, and sign out functionality automatically. */}
             <UserButton afterSignOutUrl="/" />
           </SignedIn>
         </div>
 
-        {/* Hamburger Menu Button remains the same */}
+        {/* Your hamburger menu button remains completely untouched */}
         <div className="md:hidden">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -87,16 +99,18 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* --- MOBILE MENU UPDATED FOR SCROLLING --- */}
       {isMenuOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-[#030a03] bg-opacity-95 backdrop-blur-sm mt-2 border-t border-green-900">
           <div className="flex flex-col items-center space-y-6 py-8 text-lg">
             <Link href="/" className="text-white" onClick={() => setIsMenuOpen(false)}>Home</Link>
-            <Link href="/services" className="text-white" onClick={() => setIsMenuOpen(false)}>Services</Link>
-            <Link href="/contact" className="text-white" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+            {/* The href is now an anchor link, and onClick triggers the scroll */}
+            <Link href="#services" onClick={(e) => handleScroll(e, 'services')} className="text-white">Services</Link>
+            {/* The href is now an anchor link, and onClick triggers the scroll */}
+            <Link href="#contact" onClick={(e) => handleScroll(e, 'contact')} className="text-white">Contact</Link>
             <hr className="w-1/2 border-gray-700" />
             
-            {/* --- 3. THIS IS THE UPDATED MOBILE AUTH SECTION --- */}
+            {/* Your mobile auth section remains completely untouched */}
             <SignedOut>
               <div className="flex flex-col items-center space-y-6">
                 <Link href="/sign-in" className="text-gray-300" onClick={() => setIsMenuOpen(false)}>Login</Link>
@@ -104,7 +118,6 @@ export default function Navbar() {
               </div>
             </SignedOut>
             <SignedIn>
-               {/* Note: The UserButton also works on mobile, but for a more custom feel, you might show the user's name and a separate logout button. For now, this is the simplest and most effective solution. */}
                <UserButton afterSignOutUrl="/"/>
             </SignedIn>
           </div>

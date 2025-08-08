@@ -50,6 +50,8 @@ const servicesData = [
 
 export default function ServicesPage() {
   return (
+        <section id="services" className="w-full">
+
     <div className="py-20 lg:py-24">
       {/* Page Header */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -89,5 +91,6 @@ export default function ServicesPage() {
         </div>
       </div>
     </div>
+    </section>
   );
 }
