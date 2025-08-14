@@ -23,14 +23,18 @@ export default function HomePage() {
       // If the user is not logged in, Clerk's middleware will redirect them.
       // This handles any other server-side failure.
       if (!response.ok) {
-        throw new Error('Failed to start a new plan. Please try again.');
+        // throw new Error('Failed to start a new plan. Please try again.');
+        setError('Failed to start a new plan. Please try again.');
+        return;
       }
 
       const data = await response.json();
       const { businessPlanId } = data;
 
       if (!businessPlanId) {
-        throw new Error('Could not retrieve a new plan ID.');
+        // throw new Error('Could not retrieve a new plan ID.');
+        setError('Could not retrieve a new plan ID.');
+        return;
       }
 
       // 2. Save the new ID to the browser's localStorage
@@ -81,7 +85,9 @@ export default function HomePage() {
               {isLoading ? 'Preparing...' : 'Get Started'}
             </button>
             {/* This will display any errors to the user */}
-            {error && <p className="text-red-500 mt-4">{error}</p>}
+            {error && <p className="text-red-500 mt-4 text-2xl font-semibold">
+              PLEASE SIGN IN TO USE THIS FEATURE.
+              </p>}
           </div>
 
         </div>
