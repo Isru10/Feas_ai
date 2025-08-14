@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FeasAI - AI-Powered Business Feasibility Analyst
+
+FeasAI is a full-stack web application that leverages Google's Gemini AI to provide instant, comprehensive, and brutally honest feasibility analysis for business ideas. It guides users through a multi-step form to capture their vision and generates a detailed report with key metrics, a visual dashboard, and an unfiltered "roast" of their concept.
+
+## Screenshots
+
+### 1. Homepage & Hero Section
+*The public-facing landing page introduces the application and prompts users to get started.*
+![App Screenshot](./s2.png)
+
+### 2. Multi-Step Form
+*Once a user starts a plan, they are guided through a series of clean, consistent forms to input their business data. All form pages are protected routes.*
+
+
+### 3. AI Analysis Dashboard
+*The final results page presents a detailed report, a visual breakdown of key metrics using a Recharts line chart, and an overall feasibility score.*
+![App Screenshot](./s1.png)
+
+### 4. The "Brutal Roast"
+*A unique feature where users can get a short, unfiltered, and often humorous verdict on their business idea in a pop-up modal.*
+
+
+---
+
+## Features
+
+-   **Full Authentication System:**
+    -   Secure user registration and login powered by Clerk.
+    -   User data is synced to a local MongoDB database on sign-up.
+-   **Protected Routes:**
+    -   The entire business plan creation flow (`/businessname`, `/results`, etc.) is accessible only to authenticated users, managed by Next.js Middleware.
+    -   Public routes (`/`, `/services`, `/contact`) are accessible to everyone.
+-   **Multi-Step Form:**
+    -   A guided process to collect Business Name, Industry, Description, Target Audience, Budget, and Goals.
+    -   User progress is saved to the database at each step.
+-   **AI-Powered Analysis:**
+    -   A dedicated API route (`/api/generate-analysis`) fetches all user data and makes parallel calls to the Google Gemini API.
+    -   Generates both a professional, detailed report and a short, "brutal roast" verdict.
+-   **Dynamic Results Dashboard:**
+    -   Displays the detailed report with beautiful, custom markdown styling.
+    -   Visualizes key metrics (Market Potential, Financial Viability, Innovation) using a Recharts line chart.
+    -   Allows users to download the full report as a markdown file.
+
+## Tech Stack
+
+-   **Framework:** [Next.js](https://nextjs.org/) (App Router)
+-   **Language:** [TypeScript](https://www.typescriptlang.org/)
+-   **Clerk Authentication:** [Clerk](https://clerk.com/)
+-   **Database:** [MongoDB](https://www.mongodb.com/)
+-   **ORM:** [Mongoose](https://mongoosejs.com/)
+-   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+-   **AI:** [Google Gemini API](https://ai.google.dev/)
+-   **Charting:** [Recharts](https://recharts.org/)
+-   **Deployment:** [Vercel](https://vercel.com/)
+
+---
 
 ## Getting Started
 
-First, run the development server:
+Follow these instructions to get a copy of the project up and running on your local machine.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Installation & Setup
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1.  **Clone the repository**
+    ```sh
+    git clone https://github.com/Isru10/Feas_ai.git
+    
+    cd Feas_ai
+    ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2.  **Install dependencies**
+    ```sh
+    npm install
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3.  **Set up environment variables**
+    Create a file named `.env.local` in the root of your project. This file is ignored by Git and is the secure place for your secret keys.
 
-## Learn More
+    ```env
+    # Get your MongoDB connection string from Atlas
+    DATABASE_URL="mongodb+srv://..."
 
-To learn more about Next.js, take a look at the following resources:
+    # Get your API key from Google AI Studio
+    GEMINI_API_KEY="your_gemini_api_key"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    # Get your keys from the Clerk Dashboard
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_..."
+    CLERK_SECRET_KEY="sk_test_..."
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4.  **Run the development server**
+    ```sh
+    npm run dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) to see the application.
