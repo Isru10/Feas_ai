@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
-import "../globals.css";
+import "../globals.css"
 import Navbar from "@/components/Navbar";
 // 1. IMPORT THE CLERK PROVIDER
 import { ClerkProvider } from '@clerk/nextjs';
